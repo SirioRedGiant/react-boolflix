@@ -8,9 +8,7 @@ import { FontAwesomeIcon } from "@fortawesome/react-fontawesome"; // componente 
 
 export default function MainContent() {
   // Prendiamo l'array dei film dal Context
-  const { movies } = useContext(MovieContext);
-  // l'array delle serie tv
-  const { tvSeries } = useContext(MovieContext);
+  const { movies, tvSeries } = useContext(MovieContext);
 
   //note Funzione che mappa la lingua alla bandiera dal formato codice lingua a codice nazione
   const getFlagImage = (languageCode) => {
@@ -82,72 +80,96 @@ export default function MainContent() {
   };
 
   return (
-    <main className="container py-4">
+    <main className="container-fluid bg-dark min-vh-100 py-4">
       {/* --- FILMS --- */}
-      <section className="mb-5">
-        <h2 className="text-danger border-bottom pb-2 mb-4">Films</h2>
-        {movies.length > 0 ? (
-          <ul className="list-group">
-            {movies.map((movie) => (
-              <li
+      <section className="container-fluid mb-5">
+        <h2 className="text-danger border-bottom border-danger pb-2 mb-4 fw-bold">
+          Films
+        </h2>
+        <div className="row g-4">
+          {movies.length > 0 ? (
+            movies.map((movie) => (
+              <div
                 key={movie.id}
-                className="list-group-item bg-light mb-3 shadow-sm"
+                className="col-12 col-sm-6 col-md-4 col-lg-3 col-xl-2"
               >
-                <img
-                  src={getPosterImage(movie.poster_path)}
-                  alt={movie.title}
-                  style={{ width: "150px", objectFit: "cover" }}
-                />
-                <h4 className="fw-bold">Titolo: {movie.title}</h4>
-                <p className="mb-1">
-                  <strong>Titolo Originale:</strong> {movie.original_title}
-                </p>
-                <p className="mb-1">
-                  <strong>Lingua:</strong>{" "}
-                  {getFlagImage(movie.original_language)}
-                </p>
-                <p className="mb-0">
-                  <strong>Voto:</strong> {renderStars(movie.vote_average)}
-                </p>
-              </li>
-            ))}
-          </ul>
-        ) : (
-          <p className="text-muted">Nessun film trovato</p>
-        )}
+                <div className="movie-card shadow-lg rounded">
+                  {/* Copertina */}
+                  <img
+                    src={getPosterImage(movie.poster_path)}
+                    alt={movie.title}
+                    className="movie-poster"
+                  />
+                  {/* RETRO ==> Hover con CSS */}
+                  <div className="movie-info p-3">
+                    <h5 className="fw-bold text-danger">{movie.title}</h5>
+                    <p className="small mb-1">
+                      <em>{movie.original_title}</em>
+                    </p>
+                    <div className="mb-2 small">
+                      Lingua: {getFlagImage(movie.original_language)}
+                    </div>
+                    <div className="mb-2 small">
+                      Voto: {renderStars(movie.vote_average)}
+                    </div>
+                    <p className="overview-text mt-3">
+                      <strong>Overview:</strong>
+                      <br />
+                      {movie.overview || "Trama non disponibile."}
+                    </p>
+                  </div>
+                </div>
+              </div>
+            ))
+          ) : (
+            <p className="text-muted ms-3">Nessun film trovato.</p>
+          )}
+        </div>
       </section>
       {/* --- SERIE TV --- */}
-      <section className="mb-5">
-        <h2 className="text-primary border-bottom pb-2 mb-4">TV Series</h2>
-        {tvSeries.length > 0 ? (
-          <ul className="list-group">
-            {tvSeries.map((tvSerie) => (
-              <li
+      <section className="container-fluid mb-5">
+        <h2 className="text-primary border-bottom pb-2 mb-4 fw-bold">
+          Tv Series
+        </h2>
+        <div className="row g-4">
+          {tvSeries.length > 0 ? (
+            tvSeries.map((tvSerie) => (
+              <div
                 key={tvSerie.id}
-                className="list-group-item bg-light mb-3 shadow-sm"
+                className="col-12 col-sm-6 col-md-4 col-lg-3 col-xl-2"
               >
-                <img
-                  src={getPosterImage(tvSerie.poster_path)}
-                  alt={tvSerie.name}
-                  style={{ width: "150px", objectFit: "cover" }}
-                />
-                <h4 className="fw-bold">Titolo: {tvSerie.name}</h4>
-                <p className="mb-1">
-                  <strong>Titolo Originale:</strong> {tvSerie.original_name}
-                </p>
-                <p className="mb-1">
-                  <strong>Lingua:</strong>{" "}
-                  {getFlagImage(tvSerie.original_language)}
-                </p>
-                <p className="mb-0">
-                  <strong>Voto:</strong> {renderStars(tvSerie.vote_average)}
-                </p>
-              </li>
-            ))}
-          </ul>
-        ) : (
-          <p className="text-muted">Nessuna serie tv trovata</p>
-        )}
+                <div className="movie-card shadow-lg rounded">
+                  {/* Copertina */}
+                  <img
+                    src={getPosterImage(tvSerie.poster_path)}
+                    alt={tvSerie.name}
+                    className="movie-poster"
+                  />
+                  {/* RETRO ==> Hover con css */}
+                  <div className="movie-info p-3">
+                    <h5 className="fw-bold text-danger">{tvSerie.name}</h5>
+                    <p className="small mb-1">
+                      <em>{tvSerie.original_name}</em>
+                    </p>
+                    <div className="mb-2 small">
+                      Lingua: {getFlagImage(tvSerie.original_language)}
+                    </div>
+                    <div className="mb-2 small">
+                      Voto: {renderStars(tvSerie.vote_average)}
+                    </div>
+                    <p className="overview-text mt-3">
+                      <strong>Overview:</strong>
+                      <br />
+                      {tvSerie.overview || "Trama non disponibile."}
+                    </p>
+                  </div>
+                </div>
+              </div>
+            ))
+          ) : (
+            <p className="text-muted ms-3">Nessun film trovato.</p>
+          )}
+        </div>
       </section>
       {/* in caso entrambe le ricerche non vadano a buon fine o non sia stato ancora compilato */}
       {movies.length === 0 && tvSeries.length === 0 && (
