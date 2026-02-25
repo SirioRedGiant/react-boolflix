@@ -1,6 +1,11 @@
 import { useContext } from "react";
 import { MovieContext } from "../context/MovieContext";
 
+//! scaricato i pacchetti ed il motore per le stelle icon --> npm i @fortawesome/fontawesome-svg-core @fortawesome/free-solid-svg-icons @fortawesome/free-regular-svg-icons @fortawesome/react-fontawesome LINK DOCUMENT --> https://docs.fontawesome.com/web/use-with/react/
+import { faStar as fullStar } from "@fortawesome/free-solid-svg-icons"; // Stella Piena
+import { faStar as emptyStar } from "@fortawesome/free-regular-svg-icons"; // Stella Vuota
+import { FontAwesomeIcon } from "@fortawesome/react-fontawesome"; // componente importato
+
 export default function MainContent() {
   // Prendiamo l'array dei film dal Context
   const { movies } = useContext(MovieContext);
@@ -37,6 +42,23 @@ export default function MainContent() {
     );
   };
 
+  //note Funzione che converte un voto da 1 a 10 in decimale a 1 a 5 stelline per eccesso --> https://developer.mozilla.org/en-US/docs/Web/JavaScript/Reference/Global_Objects/Math/ceil
+  const renderStars = (vote) => {
+    const rating = Math.ceil(vote / 2);
+    const stars = [];
+
+    for (let i = 1; i <= 5; i++) {
+      stars.push(
+        <FontAwesomeIcon
+          key={i}
+          icon={i <= rating ? fullStar : emptyStar}
+          className={i <= rating ? "text-warning" : "text-muted"}
+        />,
+      );
+    }
+    return stars;
+  };
+
   return (
     <main className="container py-4">
       {/* --- FILMS --- */}
@@ -58,7 +80,7 @@ export default function MainContent() {
                   {getFlagImage(movie.original_language)}
                 </p>
                 <p className="mb-0">
-                  <strong>Voto:</strong> {movie.vote_average}
+                  <strong>Voto:</strong> {renderStars(movie.vote_average)}
                 </p>
               </li>
             ))}
@@ -86,7 +108,7 @@ export default function MainContent() {
                   {getFlagImage(tvSerie.original_language)}
                 </p>
                 <p className="mb-0">
-                  <strong>Voto:</strong> {tvSerie.vote_average}
+                  <strong>Voto:</strong> {renderStars(tvSerie.vote_average)}
                 </p>
               </li>
             ))}
