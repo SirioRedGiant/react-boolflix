@@ -59,6 +59,28 @@ export default function MainContent() {
     return stars;
   };
 
+  //note Funzione che aggiunge le immagini copertina ai film --> prende poster_path e lo aggiunge alla baseUrl per trovare il percorso all'immagine
+  //todo --- dimensioni consigliate immagini di poster_path
+  /*
+  "poster_sizes": [
+  "w92",
+  "w154",
+  "w185",
+  "w342",
+  "w500",
+  "w780",
+  "original"
+],
+  */
+  const getPosterImage = (posterPath) => {
+    // posterPath --> poster_path
+    const baseUrl = "https://image.tmdb.org/t/p";
+    const pictureSize = "/w342/";
+    return posterPath
+      ? `${baseUrl}${pictureSize}${posterPath}`
+      : "https://media1.giphy.com/media/v1.Y2lkPTc5MGI3NjExeTVsaXk3Y2thZWxyN2FqNGEwZ2IyYmx5Znk0bzJuYXV2MzQ4N3NkbSZlcD12MV9naWZzX3NlYXJjaCZjdD1n/OSuaE6AknuRc7syZXp/200.webp";
+  };
+
   return (
     <main className="container py-4">
       {/* --- FILMS --- */}
@@ -71,6 +93,11 @@ export default function MainContent() {
                 key={movie.id}
                 className="list-group-item bg-light mb-3 shadow-sm"
               >
+                <img
+                  src={getPosterImage(movie.poster_path)}
+                  alt={movie.title}
+                  style={{ width: "150px", objectFit: "cover" }}
+                />
                 <h4 className="fw-bold">Titolo: {movie.title}</h4>
                 <p className="mb-1">
                   <strong>Titolo Originale:</strong> {movie.original_title}
@@ -99,6 +126,11 @@ export default function MainContent() {
                 key={tvSerie.id}
                 className="list-group-item bg-light mb-3 shadow-sm"
               >
+                <img
+                  src={getPosterImage(tvSerie.poster_path)}
+                  alt={tvSerie.name}
+                  style={{ width: "150px", objectFit: "cover" }}
+                />
                 <h4 className="fw-bold">Titolo: {tvSerie.name}</h4>
                 <p className="mb-1">
                   <strong>Titolo Originale:</strong> {tvSerie.original_name}
