@@ -15,21 +15,23 @@ export default function Header() {
   };
 
   return (
-    <header className="p-3 bg-dark text-white d-flex justify-content-between align-items-center">
-      <h1 className="text-danger m-0">BOOLFLIX</h1>
+    <header className="sticky-top bg-black py-3 shadow-lg main-header">
+      <div className="container-fluid d-flex justify-content-between align-items-center px-4">
+        <h1 className="text-danger fw-bold m-0 logo-text">BOOLFLIX</h1>
 
-      <div className="d-flex gap-2">
-        <input
-          type="text"
-          className="form-control"
-          placeholder="Cerca un film..."
-          value={searchedInput}
-          onChange={(e) => setSearchedInput(e.target.value)}
-          onKeyUp={(e) => e.key === "Enter" && handleSearch()} // per cercare l'input con invio
-        />
-        <button className="btn btn-danger" onClick={handleSearch}>
-          Cerca
-        </button>
+        <div className="d-flex gap-2">
+          <input
+            type="text"
+            className="form-control bg-dark text-white border-secondary"
+            placeholder="Cerca film o serie..."
+            value={searchedInput}
+            onChange={(e) => setSearchedInput(e.target.value)}
+            onKeyUp={(e) => e.key === "Enter" && handleSearch()}
+          />
+          <button className="btn btn-danger fw-bold" onClick={handleSearch}>
+            CERCA
+          </button>
+        </div>
       </div>
     </header>
   );
