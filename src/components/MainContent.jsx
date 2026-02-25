@@ -7,6 +7,36 @@ export default function MainContent() {
   // l'array delle serie tv
   const { tvSeries } = useContext(MovieContext);
 
+  //note Funzione che mappa la lingua alla bandiera dal formato codice lingua a codice nazione
+  const getFlagImage = (languageCode) => {
+    const languageToCountry = {
+      it: "it",
+      en: "us",
+      ja: "jp",
+      fr: "fr",
+      de: "de",
+      es: "es",
+      ug: "gb", // drop the bomb --> https://www.youtube.com/watch?v=CwLrBK0fL1c
+    };
+    const countryCode = languageToCountry[languageCode]; // verifica se il codiceLingua che arriva esiste nel "dizionario"
+
+    //todo Gestione casi con/senza bandiera
+    if (countryCode) {
+      return (
+        <img
+          src={`https://flagicons.lipis.dev/flags/4x3/${countryCode}.svg`}
+          alt=""
+          style={{ width: "20px", marginLeft: "5px", verticalAlign: "middle" }}
+        />
+      );
+    }
+    return (
+      <span className="badge bg-warning text-uppercase text-black">
+        {languageCode}
+      </span>
+    );
+  };
+
   return (
     <main className="container py-4">
       {/* --- FILMS --- */}
@@ -24,7 +54,8 @@ export default function MainContent() {
                   <strong>Titolo Originale:</strong> {movie.original_title}
                 </p>
                 <p className="mb-1">
-                  <strong>Lingua:</strong> {movie.original_language}
+                  <strong>Lingua:</strong>{" "}
+                  {getFlagImage(movie.original_language)}
                 </p>
                 <p className="mb-0">
                   <strong>Voto:</strong> {movie.vote_average}
@@ -51,7 +82,8 @@ export default function MainContent() {
                   <strong>Titolo Originale:</strong> {tvSerie.original_name}
                 </p>
                 <p className="mb-1">
-                  <strong>Lingua:</strong> {tvSerie.original_language}
+                  <strong>Lingua:</strong>{" "}
+                  {getFlagImage(tvSerie.original_language)}
                 </p>
                 <p className="mb-0">
                   <strong>Voto:</strong> {tvSerie.vote_average}
